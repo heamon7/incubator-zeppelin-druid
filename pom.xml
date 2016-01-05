@@ -86,6 +86,7 @@
   <modules>
     <module>zeppelin-interpreter</module>
     <module>zeppelin-zengine</module>
+    <module>druid</module>
     <module>spark-dependencies</module>
     <module>spark</module>
     <module>markdown</module>
@@ -607,7 +608,7 @@
                     </goals>
                   </pluginExecutionFilter>
                   <action>
-                    <ignore></ignore>
+                    <ignore/>
                   </action>
                 </pluginExecution>
               </pluginExecutions>
