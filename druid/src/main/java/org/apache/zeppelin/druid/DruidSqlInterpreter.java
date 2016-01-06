@@ -58,12 +58,12 @@ public class DruidSqlInterpreter extends Interpreter {
         "druid",
         DruidSqlInterpreter.class.getName(),
         new InterpreterPropertyBuilder()
-                 .add(DRUID_OVERLORD_HOST, null, "The Druid Overlord Host Name")
-                        .add(DRUID_OVERLORD_PORT, null, "The Druid Overlord Port")
-                        .add(DRUID_BROKER_HOST, null, "The Druid Broker Host Name")
-                        .add(DRUID_BROKER_PORT, null, "The Druid Broker Port")
-                        .add(DRUID_COORDINATOR_HOST, null, "The Druid Coordinator Host Name")
-                        .add(DRUID_COORDINATOR_PORT, null, "The Druid Coordinator Port")
+                 .add(DRUID_OVERLORD_HOST, "localhost", "The Druid Overlord Host Name")
+                        .add(DRUID_OVERLORD_PORT, "8080", "The Druid Overlord Port")
+                        .add(DRUID_BROKER_HOST, "localhost", "The Druid Broker Host Name")
+                        .add(DRUID_BROKER_PORT, "8080", "The Druid Broker Port")
+                        .add(DRUID_COORDINATOR_HOST, "localhost", "The Druid Coordinator Host Name")
+                        .add(DRUID_COORDINATOR_PORT, "8080", "The Druid Coordinator Port")
                         .build());
   }
 
@@ -104,7 +104,7 @@ public class DruidSqlInterpreter extends Interpreter {
 
   @Override
   public FormType getFormType() {
-    return null;
+    return FormType.SIMPLE;
   }
 
   @Override
