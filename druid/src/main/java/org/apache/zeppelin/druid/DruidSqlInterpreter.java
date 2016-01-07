@@ -21,6 +21,7 @@ import com.google.common.base.Function;
 import com.yahoo.sql4d.sql4ddriver.DDataSource;
 import com.yahoo.sql4d.sql4ddriver.Joiner4All;
 import com.yahoo.sql4d.sql4ddriver.Mapper4All;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.zeppelin.interpreter.Interpreter;
 import org.apache.zeppelin.interpreter.InterpreterContext;
 import org.apache.zeppelin.interpreter.InterpreterPropertyBuilder;
@@ -128,12 +129,22 @@ public class DruidSqlInterpreter extends Interpreter {
       if (goodResult.isLeft()) {
         return new InterpreterResult(Code.SUCCESS, goodResult.left().get().toString());
       } else {
-        return new InterpreterResult(Code.SUCCESS, goodResult.right().get().toString());
+        return new InterpreterResult(Code.SUCCESS,
+          mapper4All2Zeppelin((Mapper4All) goodResult.right().get()));
       }
 
     } catch (Exception e) {
       return new InterpreterResult(Code.ERROR, e.getMessage());
     }
 
+  }
+
+  private String mapper4All2Zeppelin(Mapper4All mapper4All) {
+    StringBuilder msg = new StringBuilder("%table\n");
+    msg.append(StringUtils.join(mapper4All.baseFieldNames, "\t") + "\n");
+    for (List<Object> row : mapper4All.baseAllRows) {
+      msg.append(StringUtils.join(row, "\t") + "\n");
+    }
+    return msg.toString();
   }
 }
