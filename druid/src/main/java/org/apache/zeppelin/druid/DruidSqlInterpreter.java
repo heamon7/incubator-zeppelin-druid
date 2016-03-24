@@ -77,6 +77,8 @@ public class DruidSqlInterpreter extends Interpreter {
 
   @Override
   public void open() {
+    logger.info("l80 property: {}", property);
+
     String brokerHost = getProperty(DRUID_BROKER_HOST);
     Integer brokerPort = Integer.valueOf(getProperty(DRUID_BROKER_PORT));
     String coordinatorHost = getProperty(DRUID_COORDINATOR_HOST);
@@ -122,18 +124,22 @@ public class DruidSqlInterpreter extends Interpreter {
     try {
       Either<String, Either<Joiner4All, Mapper4All>> result = dDriver.query(sql, null);
       if (result.isLeft()) {
+        logger.info("l127 ERROR result: {}", result.left().get().toString());
         return new InterpreterResult(Code.ERROR, result.left().get().toString());
       }
       Either<Joiner4All, Mapper4All> goodResult =
           (Either<Joiner4All, Mapper4All>) result.right().get();
       if (goodResult.isLeft()) {
+        logger.info("l133 SUCCESS result: {}", goodResult.left().get().toString());
         return new InterpreterResult(Code.SUCCESS, goodResult.left().get().toString());
       } else {
+        logger.info("l136 SUCCESS result: {}", mapper4All2Zeppelin((Mapper4All) goodResult.right().get()));
         return new InterpreterResult(Code.SUCCESS,
           mapper4All2Zeppelin((Mapper4All) goodResult.right().get()));
       }
 
     } catch (Exception e) {
+      logger.info("l142 ERROR result: {}", mapper4All2Zeppelin((Mapper4All) goodResult.right().get()));
       return new InterpreterResult(Code.ERROR, e.getMessage());
     }
 
